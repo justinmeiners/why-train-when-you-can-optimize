@@ -2,6 +2,7 @@
 
 [READ HERE](https://justinmeiners.github.io/why-train-when-you-can-optimize/)
 
+Here is the [final source](docs/src).
 
 ## Edits
 
