@@ -1,11 +1,9 @@
 
 ## License
 
-This applies to the article and figures:
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  applies to the article and figures:
 
-[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-This applies to all code: 
+MIT applies to all code: 
 
 MIT License
 
