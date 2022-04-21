@@ -1,6 +1,6 @@
 # Why Train When You Can Optimize?
 
-[READ HERE](https://justinmeinres
+[READ HERE](https://justinmeiners.github.io/why-train-when-you-can-optimize/)
 
 
 ## Edits
