@@ -1,3 +1,12 @@
+# Why Train When You Can Optimize?
+
+[READ HERE](https://justinmeinres
+
+
+## Edits
+
+This project uses the [srcweave](https://github.com/justinmeiners/srcweave) literate programming system. If you want to contribute a fix, without using this system
+feel free to make a PR anyway.
 
 ## License
 
