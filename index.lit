@@ -49,7 +49,7 @@ Even if we get something working, it will have so many edge cases that it will n
 
 ## Optimization overview
 
-[**Multi-variable optimization**][optimization] is about finding minima of functions which take many inputs, and produce a single output.
+[**Multi-variable optimization**][optimization] is about finding minima of functions which take many inputs and produce a single output.
 Given a real valued function \begin{math}f\colon \mathbb{R}^{n} \rightarrow \mathbb{R}\end{math},
 we want to find a point \begin{math}a = (a_{1}, \ldots, a_{n}) \in \mathbb{R}^n\end{math} so that
 \begin{math}f(a) \leq f(x)\end{math} for all \begin{math}x\end{math}, or at least the \begin{math}x\end{math} in some region.
@@ -65,7 +65,7 @@ First, we need a model of the problem.
 You may already have one in the form of a black box.
 This may be a piece of code, or a physical system, and you just want it to behave
 a certain way.
-Otherwise, you may have an intuitive idea of a problem, and need to construct your own model.
+Otherwise, you may have an intuitive idea of a problem and need to construct your own model.
 The important part is describing all the variables at play (there may be hundreds!) and how they relate.
 With a good model, solving the problem is then a manner of finding 
 inputs that give the intended results.
@@ -166,7 +166,7 @@ function lineDistance2(points, line) {
 ---
 
 The code uses a direction vector instead of the angle,
-This is more convenient for measuring distance, and can be derived immediately from the angle.
+This is more convenient for measuring distance and can be derived immediately from the angle.
 
 This is a good start, but it's not a cost function yet.
 To make it one, we need to remove all parameters that are not variables.
@@ -297,7 +297,7 @@ It's convenient, because it doesn't require much extra information besides the f
 The tradeoff is it doesn't have a great [theoretical reputation](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and can be slower.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
-I reach for it first for experimentation, and then upgrade if it is no longer adequate.
+I reach for it first for experimentation and then upgrade if it is no longer adequate.
 
 ## When do optimizers fail? 
 
@@ -313,11 +313,11 @@ and we can simply reject and ignore it.
 However, in optimization problems with many variables and complex cost functions,
 finding a minima in a timely manner, or even at all, becomes a real challenge.
 This is where a great amount of theory has been developed to classify
-cost functions, and pair them with algorithms which are guaranteed to give meaningful results.
+cost functions and pair them with algorithms which are guaranteed to give meaningful results.
 (It's a field you can get a Ph.D in.)
 
 One way to verify that the optimizer is failing is by manually constructing examples with lower
-cost than the optimizer is finding, and checking their cost against the cost function.
+cost than the optimizer is finding and checking their cost against the cost function.
 If it's what you expect, then the optimizer is just not finding it.
 For most software applications, it's just a matter of tuning the cost function
 and the parameters (like the initial guess) to get things working.
@@ -437,7 +437,7 @@ It's defined entirely defined by two variables:
 
 ![rect model](img/rect-model.png)
 
-Let's define a function which measures the distance between a simple axis aligned box, and a point.
+Let's define a function which measures the distance between a simple axis aligned box and a point.
 Unfortunately, even for this simplified model, there is no clean formula.
 We have to handle 9 different cases
 which are the possible sections of the plane
@@ -513,7 +513,7 @@ We introduce an [affine matrix][affine-transform] transformation which rotates a
 Don't worry if you aren't too familiar with matrices.
 The important idea is it combines the rotation and translation into one operation.
 
-Including the size of the rectangle, and the transformation matrix,
+Including the size of the rectangle and the transformation matrix,
 there will be 5 total variables to optimize:
 
 - `size.x`
@@ -699,7 +699,7 @@ There is a lot of overlap between the two approaches, so let's compare and contr
 ### Differences in cost functions 
 
 The first difference is in how cost functions are constructed.
-In this project, we analyzed geometric properties, and designed cost 
+In this project, we analyzed geometric properties and designed cost 
 functions that reflect the outcome we wanted.
 These functions were not just rough guesses.
 With a little analysis, we can confirm that any shape with low cost
@@ -717,7 +717,7 @@ The gaps between examples are inferred.
 Using training data, rather than direct modeling,
 is motivated by the difficulty of describing desired output directly.
 Defining an explicit cost function from first principcles, that works as expected, is hard.
-It requires careful thought, trial and error, and some physical or mathematical
+It requires careful thought, trial and error and some physical or mathematical
 modeling knowledge.
 
 Often it's just not feasible.
@@ -826,8 +826,7 @@ To summarize, deep learning, and related machine learning algorithms
 are unique in their ability to make progress on problems we have no better tools for.
 Being able to identify objects in images, or generate new images or video, is absolutely incredible.
 But perhaps it is being overused.
-For many problems, more direct modeling and optimization methods are available,
-and more likely to be reliable and successful.
+For many problems, more direct modeling and optimization methods are available and more likely to be reliable and successful.
 
 I hope this tutorial has given you ideas for upcoming projects.
 Remember to keep optimization readily available in your toolbox!

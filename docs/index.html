@@ -87,7 +87,7 @@ Even if we get something working, it will have so many edge cases that it will n
 <h2>2. Optimization overview<a id="s0:1"></a></h2>
 
 
-<p><a href="https://en.wikipedia.org/wiki/Mathematical_optimization"><strong>Multi-variable optimization</strong></a> is about finding minima of functions which take many inputs, and produce a single output.
+<p><a href="https://en.wikipedia.org/wiki/Mathematical_optimization"><strong>Multi-variable optimization</strong></a> is about finding minima of functions which take many inputs and produce a single output.
 Given a real valued function <span class="math"><code>f\colon \mathbb{R}^{n} \rightarrow \mathbb{R}</code></span>,
 we want to find a point <span class="math"><code>a = (a_{1}, \ldots, a_{n}) \in \mathbb{R}^n</code></span> so that
 <span class="math"><code>f(a) \leq f(x)</code></span> for all <span class="math"><code>x</code></span>, or at least the <span class="math"><code>x</code></span> in some region.</p>
@@ -103,7 +103,7 @@ First, we need a model of the problem.
 You may already have one in the form of a black box.
 This may be a piece of code, or a physical system, and you just want it to behave
 a certain way.
-Otherwise, you may have an intuitive idea of a problem, and need to construct your own model.
+Otherwise, you may have an intuitive idea of a problem and need to construct your own model.
 The important part is describing all the variables at play (there may be hundreds!) and how they relate.
 With a good model, solving the problem is then a manner of finding
 inputs that give the intended results.</p>
@@ -215,7 +215,7 @@ function lineDistance2(points, line) {
 
 
 <p>The code uses a direction vector instead of the angle,
-This is more convenient for measuring distance, and can be derived immediately from the angle.</p>
+This is more convenient for measuring distance and can be derived immediately from the angle.</p>
 
 <p>This is a good start, but it&rsquo;s not a cost function yet.
 To make it one, we need to remove all parameters that are not variables.
@@ -364,7 +364,7 @@ It&rsquo;s convenient, because it doesn&rsquo;t require much extra information b
 The tradeoff is it doesn&rsquo;t have a great <a href="http://www.scholarpedia.org/article/Nelder-Mead_algorithm">theoretical reputation</a> and can be slower.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
-I reach for it first for experimentation, and then upgrade if it is no longer adequate.</p>
+I reach for it first for experimentation and then upgrade if it is no longer adequate.</p>
 
 <h2>6. When do optimizers fail? <a id="s0:5"></a></h2>
 
@@ -381,11 +381,11 @@ and we can simply reject and ignore it.</p>
 <p>However, in optimization problems with many variables and complex cost functions,
 finding a minima in a timely manner, or even at all, becomes a real challenge.
 This is where a great amount of theory has been developed to classify
-cost functions, and pair them with algorithms which are guaranteed to give meaningful results.
+cost functions and pair them with algorithms which are guaranteed to give meaningful results.
 (It&rsquo;s a field you can get a Ph.D in.)</p>
 
 <p>One way to verify that the optimizer is failing is by manually constructing examples with lower
-cost than the optimizer is finding, and checking their cost against the cost function.
+cost than the optimizer is finding and checking their cost against the cost function.
 If it&rsquo;s what you expect, then the optimizer is just not finding it.
 For most software applications, it&rsquo;s just a matter of tuning the cost function
 and the parameters (like the initial guess) to get things working.</p>
@@ -525,7 +525,7 @@ It&rsquo;s defined entirely defined by two variables:</p>
 
 <p><img src="img/rect-model.png" alt="rect model" /></p>
 
-<p>Let&rsquo;s define a function which measures the distance between a simple axis aligned box, and a point.
+<p>Let&rsquo;s define a function which measures the distance between a simple axis aligned box and a point.
 Unfortunately, even for this simplified model, there is no clean formula.
 We have to handle 9 different cases
 which are the possible sections of the plane
@@ -616,7 +616,7 @@ We introduce an <a href="https://en.wikipedia.org/wiki/Affine_transformation">af
 Don&rsquo;t worry if you aren&rsquo;t too familiar with matrices.
 The important idea is it combines the rotation and translation into one operation.</p>
 
-<p>Including the size of the rectangle, and the transformation matrix,
+<p>Including the size of the rectangle and the transformation matrix,
 there will be 5 total variables to optimize:</p>
 
 <ul>
@@ -828,7 +828,7 @@ There is a lot of overlap between the two approaches, so let&rsquo;s compare and
 <h3>Differences in cost functions</h3>
 
 <p>The first difference is in how cost functions are constructed.
-In this project, we analyzed geometric properties, and designed cost
+In this project, we analyzed geometric properties and designed cost
 functions that reflect the outcome we wanted.
 These functions were not just rough guesses.
 With a little analysis, we can confirm that any shape with low cost
@@ -846,7 +846,7 @@ The gaps between examples are inferred.</p>
 <p>Using training data, rather than direct modeling,
 is motivated by the difficulty of describing desired output directly.
 Defining an explicit cost function from first principcles, that works as expected, is hard.
-It requires careful thought, trial and error, and some physical or mathematical
+It requires careful thought, trial and error and some physical or mathematical
 modeling knowledge.</p>
 
 <p>Often it&rsquo;s just not feasible.
@@ -951,8 +951,7 @@ To summarize, deep learning, and related machine learning algorithms
 are unique in their ability to make progress on problems we have no better tools for.
 Being able to identify objects in images, or generate new images or video, is absolutely incredible.
 But perhaps it is being overused.
-For many problems, more direct modeling and optimization methods are available,
-and more likely to be reliable and successful.</p>
+For many problems, more direct modeling and optimization methods are available and more likely to be reliable and successful.</p>
 
 <p>I hope this tutorial has given you ideas for upcoming projects.
 Remember to keep optimization readily available in your toolbox!</p>
