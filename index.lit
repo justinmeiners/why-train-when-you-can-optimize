@@ -4,20 +4,20 @@
 
 View the final code at the [GitHub repo](https://github.com/justinmeiners/why-train-when-you-can-optimize)
 
-[Multi-variable optimization][optimization] is an incredibly useful tool for software,
-as it allows you to specify a desired result,
-and delegate finding the solution to a reliable algorithm.
+[Multi-variable optimization][optimization] is an incredibly useful tool for writing software.
+It allows you to specify a desired result and delegate finding the solution to a reliable algorithm.
 If you know what you want, but not how to get it, optimization can probably help. 
 Problems with many interacting variables, that are unmanageable with traditional programming approaches, become straightforward.
 
 Optimization has been researched by mathematicians for decades and plays an essential role in fields like [classical mechanics][least-action] and [control theory][optimal-control].
 But, only recently has it become popular in software, due to it's role in machine learning.
 Unfortunately, most programmers understanding of optimization is restricted to [training neural networks][backprop].
-Many deep learning applications can be restated as optimization problems, with better results.
-The potential for optimization, as a tool in everyday software, isn't being realized,
-despite being very general and accessible.
+The potential for optimization as a general software tool, isn't being realized,
+despite being very general and accesible.
+Furthmore, many deep learning applications can be restated as optimization problems,
+with better results.
 
-In this article, I will introduce optimization by creating a [drawing assistant](src/) that refines hand drawn figures into perfect shapes. We will use JavaScript and the `<canvas>` element.
+In this article, I will introduce optimization by creating a [drawing assistant](src/) that refines hand drawn figures into perfect shapes. This project is written in JavaScript ususing the `<canvas>` element.
 
 
 [optimization]: https://en.wikipedia.org/wiki/Mathematical_optimization
@@ -31,7 +31,7 @@ In this article, I will introduce optimization by creating a [drawing assistant]
 
 This project is inspired by the drawing feature in the iPad notes app (with Apple Pencil).
 As you draw a figure similar to a line, circle, etc,
-it will detect which shape you intended, and offer to replace the rough drawing with a perfect one.
+it will detect the intended shape and offer to replace the rough drawing, with a perfect one.
 
 ![ipad pencil drawing correction](img/ipad-notes.gif)
 
@@ -47,16 +47,6 @@ What a mess!
 Even if we get something working, it will have so many edge cases that it will never work well enough to trust.
 
 
-### Template
-
-If you want to follow along by writing your own code, here are a few brief dependencies you will need:
-
-- [math.js](src/math.js): A vector math library which also includes an optimization algorithm. ([docs](math.html))
-- [draw.js](src/draw.js): Simple canvas code for mouse input and drawing. ([docs](template.html))
-
-These can be loaded in a trivial HTML template, with `<canvas id="main-canvas">`
-somewhere in the body.
-
 ## Optimization overview
 
 [**Multi-variable optimization**][optimization] is about finding minima of functions which take many inputs, and produce a single output.
@@ -65,9 +55,9 @@ we want to find a point \begin{math}a = (a_{1}, \ldots, a_{n}) \in \mathbb{R}^n\
 \begin{math}f(a) \leq f(x)\end{math} for all \begin{math}x\end{math}, or at least the \begin{math}x\end{math} in some region.
 
 An **optimizer** is an algorithm which attempts to do this automatically.
-It works by intelligently trying many different variable assignments,
+It intelligently tests many different variable assignments,
 until it finds one that minimizes \begin{math}f\end{math}.
-Later we will provide more detail about how it operates, and the mathematical requirements for \begin{math}f\end{math}, for the optimizer to work.
+Later we will provide more detail about how it works and identify a few mathematical requirements for \begin{math}f\end{math} that allow it to be optimized. 
 
 So, how can optimization help our drawing project?
 As mentioned before, optimization is useful for solving problems where you know what you want, but not all the steps to get there.
@@ -81,7 +71,8 @@ With a good model, solving the problem is then a manner of finding
 inputs that give the intended results.
 
 So, how do we configure all the variable in the models, to get the desired outcome?
-This can be difficult to do directly.
+Depending on the problem, you may be able to solve it directly,
+like the math and physics homework practiced in school.
 But, with optimization, all we have to do is describe *what a good configuration looks like*.
 We do this by defining a **cost or preference function**
 which takes all the variables as input and
@@ -123,15 +114,28 @@ finding the shape.
 If we can clearly specify a cost function which expresses how well a shape matches our drawing,
 then we can let the optimizer to do the work of actually finding the shape.
 
+### Template
+
+I have provided a template which takes care of the drawing part.
+If you want to follow along by writing your own code, here are the files you will need:
+
+- [math.js](src/math.js): A vector math library which also includes an optimization algorithm. ([docs](math.html))
+- [draw.js](src/draw.js): Simple canvas code for mouse input and drawing. ([docs](template.html))
+
+These can be loaded in a trivial HTML template, with `<canvas id="main-canvas">`
+somewhere in the body.
+
+
 ## Lines
 
 The line is a simple shape to start with.
 We first need a mathematical model to describe it. 
 I have chosen to describe it as an `origin` and `angle`.
-I chose this because \begin{math}y = mx + b\end{math} doesn't work for vertical lines (infinite slope).
-I also considered using two points in the plane,
-but then we would have to worry about the case of them overlapping.
-So to represent a line in this form, we need 3 real variables:
+The formula \begin{math}y = mx + b\end{math} could be used in other contexts,
+but doesn't work for vertical lines (undefined slope).
+Two points in the plane could also work, 
+but you have to be careful to avoid the case of them overlapping.
+So to represent a line in this form we need 3 real variables:
 
 - `origin.x`
 - `origin.y`
@@ -161,17 +165,16 @@ function lineDistance2(points, line) {
 };
 ---
 
-**Note**: The code uses a direction vector instead of the angle,
+The code uses a direction vector instead of the angle,
 This is more convenient for measuring distance, and can be derived immediately from the angle.
 
 This is a good start, but it's not a cost function yet.
 To make it one, we need to remove all parameters that are not variables.
 Recall that `origin` and `angle` are the only variables we want to determine.
 The points in the drawn path are fixed and should not be changed.
-We do this by constructing a closure which captures the constant inputs.
+We do this by constructing a closure which captures the constant inputs (also known as [currying](https://en.wikipedia.org/wiki/Currying)).
 The closure will take a single array as input (this is what the optimizer expects).
-We then need to pull it apart to get all the variables to pass
-to the function above.
+We then need to pull it apart to get all the variables to pass to the function above.
 
 --- line cost function +=
 function varsToLine(vars) {
@@ -196,7 +199,7 @@ The center of the drawing (the centroid of points) is a good guess for the `orig
 But, we don't have a good guess for what the `angle` is.
 
 We also need an **iteration limit**, which specifies the 
-number of steps the optimizer will take to find a minimum.
+number of steps the optimizer will take to find a minima.
 Be warned that this is proportional to how
 many times the cost function will be called!
 Efficient cost functions are important to good performance.
@@ -278,7 +281,7 @@ so finding minima is more difficult and time consuming, but the idea is the same
 **Note:** For those interested, this collection of [test functions](https://en.wikipedia.org/wiki/Test_functions_for_optimization) illustrate some difficult situations.
 
 The important thing to remember is that all optimizers make assumptions about the structure of the cost function.
-For general optimizers that usually means the function is **continuous** and some number of **derivatives** exist.
+For general optimizers that usually means the function is **continuous** (it doesn't have breaks and hopefully has some hills) and some number of **derivatives** exist (we can compute downhill directions).
 In practice, small discontinuities and other minor imperfections tend not to matter,
 but, broadly there must be peaks and valleys that the optimizer can actually follow.
 Given a totally random function, the optimizer can't do anything but test values in a brute force manner.
@@ -291,7 +294,7 @@ Given a totally random function, the optimizer can't do anything but test values
 
 In this article, I use the [Nelder-Mead](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method) algorithm.
 It's convenient, because it doesn't require much extra information besides the function itself (many algorithms require providing an explicit derivative).
-The tradeoff is it doesn't have a great [theoretical reputation](http://www.scholarpedia.org/article/Nelder-Mead_algorithm).
+The tradeoff is it doesn't have a great [theoretical reputation](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and can be slower.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
 I reach for it first for experimentation, and then upgrade if it is no longer adequate.
@@ -324,8 +327,8 @@ and the parameters (like the initial guess) to get things working.
 ## Circles
 
 Now we return to the drawing assistant.
-We will make things more interesting by adding a few more shapes.
 
+We will make things more interesting by adding a few more shapes.
 Circles are almost as easy to represent as lines.
 One again, we have three variables:
 
@@ -360,7 +363,8 @@ function makeCircleCost(points) {
 
 For the optimization, we can once again use the centroid of the drawing
 as a guess for the origin of the circle.
-A good guess for the radius of the circle is the bounds of the drawing.
+A good guess for the radius of the circle is the size of the bounding
+rectangle around the drawing.
 
 --- circle optimization
 @{circle cost function}
@@ -397,7 +401,7 @@ can fit it closely by making a giant circle, which is mostly off screen.
 
 ![circle fail](img/circle-fail.gif)
 
-This is unexpected behaviour.
+This behaviour is usually unexpected.
 To correct for it, we can ensure the size of the circle is close to the drawing.
 We do this by measuring their relative path lengths and verifying they are similar.
 
@@ -412,6 +416,8 @@ function circleMatches(path, circle) {
 ---
 
 ![circle drawing](img/circle-drawing.gif)
+
+**Exercise:** Experiment with different initial variables. How do they affect output quality?
 
 ## Simple rectangles
 
@@ -484,9 +490,9 @@ function simpleRectDistance(point, size) {
 **Exercise:** Describe what a "heat map" style visualization of this distance function would look like.
 
 The conditional statements are a good indicator that the function we are defining
-might be problematic for the optimizer, and we need to be careful about it's continuity and differentiability.
-A little analysis will show it is indeed continuous, and in only a few places
-is it not differentiable.
+might be problematic for the optimizer.
+We need to be careful about it's continuity and differentiability.
+A little analysis will show it is indeed continuous and in only a few places not differentiable.
 So, this is likely a safe function.
 
 **Exercise:** Determine the set of points where `simpleRectDistance` is not differentiable.
@@ -502,7 +508,7 @@ function simpleRectDistances2(points, size) {
 
 ## Transformed rectangles
 
-Now we need to handle the general rectangle case.
+That works for simple axis aligned rectangles, but we still need to handle the general rectangle case.
 We introduce an [affine matrix][affine-transform] transformation which rotates and positions the rectangle.
 Don't worry if you aren't too familiar with matrices.
 The important idea is it combines the rotation and translation into one operation.
@@ -556,7 +562,7 @@ function makeRectCost(points) {
 ---
 
 
-This shape has taken more work to build the cost function,
+This rectangle has taken more work to build the cost function,
 but the optimization isn't any harder than before.
 We use the bounds of the drawing as the guess
 for the box size and translation.
@@ -683,8 +689,9 @@ want to try defining the distance function first. Some shapes, [like ellipses][e
 ## What is the connection between deep learning and optimization?
 
 You may have noticed some similarities between this project and [traditional deep learning][deep-learning].
-Optimization is a fundamental part of deep learning, but it's applied a bit more indirectly.
-This article instead emphasizes modeling a problem mathematically and then applying optimization directly.
+Optimization is a fundamental part of deep learning, but it's not the main focus,
+and is in turn, much more separated from the problem.
+Instead the approach we just used emphasizes modeling a problem mathematically and using an optimizer directly.
 There is a lot of overlap between the two approaches, so let's compare and contrast.
 
 [deep-learning]: http://neuralnetworksanddeeplearning.com/
@@ -708,21 +715,21 @@ The gaps between examples are inferred.
 ### Tradeoffs of training
 
 Using training data, rather than direct modeling,
-is motivated by how difficult it can be to summarize desired output from first principles.
-Defining an explicit cost function that gives desired results is hard.
+is motivated by the difficulty of describing desired output directly.
+Defining an explicit cost function from first principcles, that works as expected, is hard.
 It requires careful thought, trial and error, and some physical or mathematical
 modeling knowledge.
 
-Often it's not even feasible.
-Just try to imagine  what the cost function must look like for a program
+Often it's just not feasible.
+Try to imagine what the cost function must look like for a program
 that identifies animals from a collection of pixels!
 In such cases, deep learning allows the cost function to be developed interactively, from much less information.
 
 Of course, acquiring training data is it's own challenge.
-It's a significant amount of work to design a data collection process,
+Desiging a data collection and storage process,
 in a way that prevents bias, gets good results, and is able to generalize
-beyond the examples in the training set.
-What is gained in simplicity, must be made up with old fashioned hard work.
+beyond the examples in the training set, is a significant amount of work.
+What is gained in simplicity of approach, must be made up with old fashioned manual labor.
 
 Inferring from examples, is always going to be less precise than an explicit function.
 But, perhaps the most worrisome problem with deep learning is the [problem of induction][problem-of-induction].
@@ -739,8 +746,9 @@ An additional challenge of training is it doesn't behave
 at all like traditional software.
 A trained network is entirely opaque.
 It's difficult to inspect, debug, or describe how it works.
-There is no reporting mechanism that can tell you how well its performing.
-Alternatively, optimizing a good cost function, looks more like programming.
+There is no mechanism to report how well its performing.
+Alternatively, optimizing a good cost function, looks more like programming,
+the kind we are comfortable with.
 We can inspect and result about it's state.
 We can prove a minima gives desired results,
 and receive feedback in the form of high cost,
@@ -777,14 +785,14 @@ We have some good reasons to hope multi-layer neural networks should be able to 
     a hope that advantages will come form mimicking brains.
 4. Optimization algorithms like gradient descent work well on them (back propagation).
 
-These are all true and useful properties, but they also aren't as special as they might appear. For example, we could consider approximating cofficients of polynomials,
-or trigonometric series instead.
 
 [neural-nets-sim]: https://justinmeiners.github.io/neural-nets-sim/
 
 ### Tradeoffs of neural networks
 
-Neural networks may be able to approximate any function, but that doesn't mean they do so efficiently. 
+These are all true and useful properties of neural networks, but they also aren't as special as they might appear. For example, we could consider approximating cofficients of polynomials, or trigonometric series instead.
+
+Neural networks can approximate any function, but that doesn't mean they do so efficiently. 
 Depending on the function, they can require incredible amounts of neurons and training.
 At their worst, they devolve into a lookup table.
 It's not hard to find these examples either.
@@ -794,7 +802,7 @@ One challenge of designing a neural network is knowing how to structure it.
 How many layers are needed? How wide? What points should have feedback, etc.
 The reason why the answer to these questions is fuzzy is because if the 
 answer was fully known, there would be no need to make a network.
-Ultimately, any attempt to tinker with these parameters in the network design is an attempt to more closely mirror the underlying mathematical model.
+Ultimately, any attempt to tinker with these components in the network design is an attempt to more closely mirror the underlying mathematical model.
 
 In fact, the most successful machine learning approaches, things like convolution neural networks
 for image processing, use neural networks on top of the underlying mathematical model.
@@ -821,8 +829,8 @@ But perhaps, it is being overused.
 For many problems, more direct modeling and optimization methods are available,
 and more likely to be reliable and successful.
 
-I hope this tutorial has given you ideas for upcoming projects!
-Remember to keep optimization readily available in your toolbox.
+I hope this tutorial has given you ideas for upcoming projects.
+Remember to keep optimization readily available in your toolbox!
 
 ## Further study
 
