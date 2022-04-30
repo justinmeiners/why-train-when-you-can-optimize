@@ -114,7 +114,7 @@ function simpleRectDistance(point, size) {
         switch (sideY) {
         case -1: return -point.y;
         case 0:  return Math.min(point.x, point.y, size.x - point.x, size.y - point.y);
-        case 1:  return point.y - size.y; 
+        case 1:  return point.y - size.y;
         }
     case 1:
         switch (sideY) {
@@ -159,7 +159,7 @@ function tryRectFit(points) {
     const [ minPoint, maxPoint ] = Vec.bounds(points);
 
     const initial = [
-        minPoint.x, minPoint.y, 
+        minPoint.x, minPoint.y,
         maxPoint.x - minPoint.x, maxPoint.y - minPoint.y,
         0
     ];
