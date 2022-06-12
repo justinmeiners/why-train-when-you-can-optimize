@@ -323,17 +323,6 @@ function SimplexVertex(n) {
     this.image = 0;
 };
 
-SimplexVertex.prototype.swap = function(other) {
-    var ptemp = this.point;
-    var itemp = this.image;
-
-    this.point = other.point;
-    this.image = other.image;
-
-    other.point = ptemp;
-    other.image = itemp;
-};
-
 SimplexVertex.prototype.copyFrom = function(other) {
     this.point.set(other.point);
     this.image = other.image;
