@@ -67,7 +67,7 @@ Vec.prototype.sub = function(b) {
 };
 
 Vec.prototype.normalized = function() {
-    return Vec.scale(this, 1 / this.len())
+    return Vec.scale(this, 1 / this.len());
 };
 
 Vec.add = function(a, b) {
@@ -125,8 +125,7 @@ Vec.centroid = function(points) {
 
 Vec.pathLen = function(path) {
     var sum = 0;
-    var i;
-    for (i = 1; i < path.length; ++i) {
+    for (var i = 1; i < path.length; ++i) {
         sum += Vec.dist(path[i], path[i-1]);
     }
     return sum;
@@ -195,7 +194,7 @@ Matrix.mul = function(A, B) {
         A.m[0] * B.m[1] + A.m[1] * B.m[3],
         A.m[2] * B.m[0] + A.m[3] * B.m[2],
         A.m[2] * B.m[1] + A.m[3] * B.m[3]
-    )
+    );
 };
 
 Matrix.prototype.det = function() {
@@ -280,7 +279,7 @@ function multivarOptimize(initial, costFunc, options) {
 
 function Simplex(n) {
     this.dimension = n;
-    this.vertices = []
+    this.vertices = [];
     for (var i = 0; i < (n + 1); ++i) {
         this.vertices.push(new SimplexVertex(n));
     }
