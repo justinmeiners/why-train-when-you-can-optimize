@@ -8,7 +8,7 @@ function lerp(a, b, t) {
 
 function clamp(low, high, t) {
     if (t < low) {
-        return low; 
+        return low;
     } else if (t > high) {
         return high;
     } else {
@@ -94,7 +94,7 @@ Vec.negate = function(v) {
     return v.copy().negate();
 };
 
-Vec.min = function(a, b) {  
+Vec.min = function(a, b) {
     return new Vec(Math.min(a.x, b.x), Math.min(a.y, b.y));
 };
 
@@ -170,7 +170,7 @@ Matrix.prototype.set = function(row, col, x) {
 
 Matrix.prototype.transform = function(v) {
     return new Vec(
-        this.m[0] * v.x + this.m[1] * v.y, 
+        this.m[0] * v.x + this.m[1] * v.y,
         this.m[2] * v.x + this.m[3] * v.y
     );
 };
@@ -366,10 +366,10 @@ Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
 
     var n = this.dimension;
 
-    var pointR = new SimplexVertex(n); 
-    var pointE = new SimplexVertex(n); 
-    var pointC = new SimplexVertex(n); 
-    var centroid = new SimplexVertex(n); 
+    var pointR = new SimplexVertex(n);
+    var pointE = new SimplexVertex(n);
+    var pointC = new SimplexVertex(n);
+    var centroid = new SimplexVertex(n);
 
     this.computeVertexImages(costFunc);
     this.getCentroid(centroid);
@@ -377,7 +377,7 @@ Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
     var iterations = 1;
 
     while (!stopPredicate(iterations, this.vertices[0].image)) {
-        var shrink = false;        
+        var shrink = false;
         this.getNewPoint(centroid, rho, pointR);
         pointR.image = costFunc(pointR.point);
 
