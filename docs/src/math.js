@@ -227,6 +227,8 @@ AffineTransform.inverse = function(a) {
     return b;
 };
 
+// The Ackley function is a function specifically designed for testing
+// optimization algorithms and commonly used for that purpose
 function makeAckley(a, b, c) {
     return function(vars) {
         var sumSquares = vars.reduce(function(total, x) {
@@ -357,10 +359,17 @@ Simplex.prototype.computeVertexImages = function(costFunc) {
 };
 
 Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
-    var rho = options.rho || 1.0;
-    var chi = options.chi || 2.0;
-    var gamma = options.gamma || 0.5;
-    var sigma = options.sigma || 0.5;
+    // Nelder-Mead optimization iteratively transforms a simplex, moving it in
+    // the direction where the cost function decreases and contracting it around
+    // a local minimum when it finds one
+
+    // At each step, one of four transformations is applied: "reflect", "expand",
+    // "contract", or "shrink".
+    // The magnitude of each transformation is controlled by a coefficient:
+    var rho = options.rho || 1.0; // coefficient for "reflect"
+    var chi = options.chi || 2.0; // coefficient for "expand"
+    var gamma = options.gamma || 0.5; // coefficient for "contract"
+    var sigma = options.sigma || 0.5; // coefficient for "shrink"
     var debug = options.debug == undefined ? false : options.debug;
 
     var n = this.dimension;
