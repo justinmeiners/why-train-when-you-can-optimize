@@ -54,7 +54,7 @@ function getMousePos(canvas, e) {
 
 Sim.prototype.mouseDown = function(e) {
     var mp = getMousePos(this.canvas, e);
-    this.path = []
+    this.path = [];
     this.path.push(mp);
     this.dragging = true;
 
@@ -153,7 +153,7 @@ function drawPath(ctx, path) {
     ctx.beginPath();
     ctx.moveTo(path[0].x, path[0].y);
     for (var i = 1; i &lt; path.length; ++i) {
-        ctx.lineTo(path[i].x, path[i].y)
+        ctx.lineTo(path[i].x, path[i].y);
     }
     ctx.stroke();
 }
@@ -173,7 +173,7 @@ function drawPath(ctx, path) {
 <em class="block-link nocode" title="template.lit:6"><a href="#bsim_definition:5">@{sim definition}</a></em>
 <em class="block-link nocode" title="template.lit:84"><a href="#bsim_rendering:83">@{sim rendering}</a></em>
 
-var sim = new Sim()
+var sim = new Sim();
 drawSim();
 </code></pre>
 </div>

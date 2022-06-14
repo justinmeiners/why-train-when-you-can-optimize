@@ -27,7 +27,7 @@ function getMousePos(canvas, e) {
 
 Sim.prototype.mouseDown = function(e) {
     var mp = getMousePos(this.canvas, e);
-    this.path = []
+    this.path = [];
     this.path.push(mp);
     this.dragging = true;
 
@@ -117,10 +117,10 @@ function drawPath(ctx, path) {
     ctx.beginPath();
     ctx.moveTo(path[0].x, path[0].y);
     for (var i = 1; i < path.length; ++i) {
-        ctx.lineTo(path[i].x, path[i].y)
+        ctx.lineTo(path[i].x, path[i].y);
     }
     ctx.stroke();
 }
 
-var sim = new Sim()
+var sim = new Sim();
 drawSim();

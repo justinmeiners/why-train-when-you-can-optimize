@@ -8,7 +8,7 @@ function lerp(a, b, t) {
 
 function clamp(low, high, t) {
     if (t < low) {
-        return low; 
+        return low;
     } else if (t > high) {
         return high;
     } else {
@@ -67,7 +67,7 @@ Vec.prototype.sub = function(b) {
 };
 
 Vec.prototype.normalized = function() {
-    return Vec.scale(this, 1 / this.len())
+    return Vec.scale(this, 1 / this.len());
 };
 
 Vec.add = function(a, b) {
@@ -94,7 +94,7 @@ Vec.negate = function(v) {
     return v.copy().negate();
 };
 
-Vec.min = function(a, b) {  
+Vec.min = function(a, b) {
     return new Vec(Math.min(a.x, b.x), Math.min(a.y, b.y));
 };
 
@@ -125,8 +125,7 @@ Vec.centroid = function(points) {
 
 Vec.pathLen = function(path) {
     var sum = 0;
-    var i;
-    for (i = 1; i < path.length; ++i) {
+    for (var i = 1; i < path.length; ++i) {
         sum += Vec.dist(path[i], path[i-1]);
     }
     return sum;
@@ -170,7 +169,7 @@ Matrix.prototype.set = function(row, col, x) {
 
 Matrix.prototype.transform = function(v) {
     return new Vec(
-        this.m[0] * v.x + this.m[1] * v.y, 
+        this.m[0] * v.x + this.m[1] * v.y,
         this.m[2] * v.x + this.m[3] * v.y
     );
 };
@@ -195,7 +194,7 @@ Matrix.mul = function(A, B) {
         A.m[0] * B.m[1] + A.m[1] * B.m[3],
         A.m[2] * B.m[0] + A.m[3] * B.m[2],
         A.m[2] * B.m[1] + A.m[3] * B.m[3]
-    )
+    );
 };
 
 Matrix.prototype.det = function() {
@@ -228,6 +227,8 @@ AffineTransform.inverse = function(a) {
     return b;
 };
 
+// The Ackley function is a function specifically designed for testing
+// optimization algorithms and commonly used for that purpose
 function makeAckley(a, b, c) {
     return function(vars) {
         var sumSquares = vars.reduce(function(total, x) {
@@ -280,7 +281,7 @@ function multivarOptimize(initial, costFunc, options) {
 
 function Simplex(n) {
     this.dimension = n;
-    this.vertices = []
+    this.vertices = [];
     for (var i = 0; i < (n + 1); ++i) {
         this.vertices.push(new SimplexVertex(n));
     }
@@ -289,17 +290,6 @@ function Simplex(n) {
 function SimplexVertex(n) {
     this.point = new Float64Array(n);
     this.image = 0;
-};
-
-SimplexVertex.prototype.swap = function(other) {
-    var ptemp = this.point;
-    var itemp = this.image;
-
-    this.point = other.point;
-    this.image = other.image;
-
-    other.point = ptemp;
-    other.image = itemp;
 };
 
 SimplexVertex.prototype.copyFrom = function(other) {
@@ -369,18 +359,25 @@ Simplex.prototype.computeVertexImages = function(costFunc) {
 };
 
 Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
-    var rho = options.rho || 1.0;
-    var chi = options.chi || 2.0;
-    var gamma = options.gamma || 0.5;
-    var sigma = options.sigma || 0.5;
+    // Nelder-Mead optimization iteratively transforms a simplex, moving it in
+    // the direction where the cost function decreases and contracting it around
+    // a local minimum when it finds one
+
+    // At each step, one of four transformations is applied: "reflect", "expand",
+    // "contract", or "shrink".
+    // The magnitude of each transformation is controlled by a coefficient:
+    var rho = options.rho || 1.0; // coefficient for "reflect"
+    var chi = options.chi || 2.0; // coefficient for "expand"
+    var gamma = options.gamma || 0.5; // coefficient for "contract"
+    var sigma = options.sigma || 0.5; // coefficient for "shrink"
     var debug = options.debug == undefined ? false : options.debug;
 
     var n = this.dimension;
 
-    var pointR = new SimplexVertex(n); 
-    var pointE = new SimplexVertex(n); 
-    var pointC = new SimplexVertex(n); 
-    var centroid = new SimplexVertex(n); 
+    var pointR = new SimplexVertex(n);
+    var pointE = new SimplexVertex(n);
+    var pointC = new SimplexVertex(n);
+    var centroid = new SimplexVertex(n);
 
     this.computeVertexImages(costFunc);
     this.getCentroid(centroid);
@@ -388,7 +385,7 @@ Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
     var iterations = 1;
 
     while (!stopPredicate(iterations, this.vertices[0].image)) {
-        var shrink = false;        
+        var shrink = false;
         this.getNewPoint(centroid, rho, pointR);
         pointR.image = costFunc(pointR.point);
 
