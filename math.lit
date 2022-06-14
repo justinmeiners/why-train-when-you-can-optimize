@@ -2,9 +2,8 @@
 
 By: Justin Meiners
 
-General vector math library.
-
-I'm keeping this ES5 for maximum browser compatibility.
+Vector math and linear algebra library.
+This code should follow ES5 for maximum browser compatibility.
 Keep performance in mind.
 Generally, prefer loops to avoid unnecessary array allocations.
 
@@ -384,6 +383,14 @@ Simplex.prototype.shrink = function(sigma) {
 @{simplex optimizer}
 ---
 
+Nelder-Mead optimization iteratively transforms a simplex, moving it in
+the direction where the cost function decreases and contracting it around
+ a local minimum when it finds one.
+
+At each step, one of four transformations is applied: "reflect", "expand",
+"contract", or "shrink".
+The magnitude of each transformation is controlled by a coefficient.
+
 --- simplex optimizer
 Simplex.prototype.computeVertexImages = function(costFunc) {
     for (var i = 0; i < (this.dimension + 1); ++i) {
@@ -393,13 +400,6 @@ Simplex.prototype.computeVertexImages = function(costFunc) {
 };
 
 Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
-    // Nelder-Mead optimization iteratively transforms a simplex, moving it in
-    // the direction where the cost function decreases and contracting it around
-    // a local minimum when it finds one
-
-    // At each step, one of four transformations is applied: "reflect", "expand",
-    // "contract", or "shrink".
-    // The magnitude of each transformation is controlled by a coefficient:
     var rho = options.rho || 1.0; // coefficient for "reflect"
     var chi = options.chi || 2.0; // coefficient for "expand"
     var gamma = options.gamma || 0.5; // coefficient for "contract"
@@ -488,10 +488,9 @@ Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
 };
 ---
 
+The Ackley function is a commonly used for testing optimization algorithms. 
 
 --- optimizer test
-// The Ackley function is a function specifically designed for testing
-// optimization algorithms and commonly used for that purpose
 function makeAckley(a, b, c) {
     return function(vars) {
         var sumSquares = vars.reduce(function(total, x) {

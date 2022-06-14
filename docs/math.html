@@ -17,9 +17,8 @@
 
 <p>By: Justin Meiners</p>
 
-<p>General vector math library.</p>
-
-<p>I&rsquo;m keeping this ES5 for maximum browser compatibility.
+<p>Vector math and linear algebra library.
+This code should follow ES5 for maximum browser compatibility.
 Keep performance in mind.
 Generally, prefer loops to avoid unnecessary array allocations.</p>
 
@@ -30,7 +29,7 @@ Generally, prefer loops to avoid unnecessary array allocations.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bmath_utilities:13" href="#bmath_utilities:13">math utilities</a></em></strong></span>
+<strong class="block-title"><em><a id="bmath_utilities:12" href="#bmath_utilities:12">math utilities</a></em></strong></span>
 <pre class="prettyprint"><code class="">function lerp(a, b, t) {
     return (1 - t) * a + t * b;
 };
@@ -45,7 +44,7 @@ function clamp(low, high, t) {
     }
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 
@@ -59,7 +58,7 @@ function clamp(low, high, t) {
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bvec_definition:35" href="#bvec_definition:35">vec definition</a></em></strong></span>
+<strong class="block-title"><em><a id="bvec_definition:34" href="#bvec_definition:34">vec definition</a></em></strong></span>
 <pre class="prettyprint"><code class="">function Vec(x, y) {
     this.x = x;
     this.y = y;
@@ -77,10 +76,10 @@ Vec.prototype.copy = function() {
     return new Vec(this.x, this.y);
 };
 
-<em class="block-link nocode" title="math.lit:62"><a href="#bvec_arithmetic:61">@{vec arithmetic}</a></em>
-<em class="block-link nocode" title="math.lit:137"><a href="#bvec_algorithms:136">@{vec algorithms}</a></em>
+<em class="block-link nocode" title="math.lit:61"><a href="#bvec_arithmetic:60">@{vec arithmetic}</a></em>
+<em class="block-link nocode" title="math.lit:136"><a href="#bvec_algorithms:135">@{vec algorithms}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 <h3>Arithematic operations</h3>
@@ -89,7 +88,7 @@ Vec.prototype.copy = function() {
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bvec_arithmetic:61" href="#bvec_arithmetic:61">vec arithmetic</a></em></strong></span>
+<strong class="block-title"><em><a id="bvec_arithmetic:60" href="#bvec_arithmetic:60">vec arithmetic</a></em></strong></span>
 <pre class="prettyprint"><code class="">Vec.prototype.dot = function(b) {
     return this.x * b.x + this.y * b.y;
 };
@@ -160,14 +159,14 @@ Vec.max = function(a, b) {
     return new Vec(Math.max(a.x, b.x), Math.max(a.y, b.y));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bvec_definition:35" title="math.lit:36 vec definition">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bvec_definition:34" title="math.lit:35 vec definition">1</a> </small></p></div>
 
 
 <h3>Algorithms</h3>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bvec_algorithms:136" href="#bvec_algorithms:136">vec algorithms</a></em></strong></span>
+<strong class="block-title"><em><a id="bvec_algorithms:135" href="#bvec_algorithms:135">vec algorithms</a></em></strong></span>
 <pre class="prettyprint"><code class="">Vec.prototype.inBounds = function(min, max) {
     return this.x &gt;= min.x &amp;&amp; this.y &gt;= min.y &amp;&amp;
            this.x &lt;= max.x &amp;&amp; this.y &lt;= max.y;
@@ -201,7 +200,7 @@ Vec.bounds = function(points) {
     return [points.reduce(Vec.min), points.reduce(Vec.max)];
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bvec_definition:35" title="math.lit:36 vec definition">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bvec_definition:34" title="math.lit:35 vec definition">1</a> </small></p></div>
 
 
 
@@ -213,7 +212,7 @@ Vec.bounds = function(points) {
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bmatrix_definition:174" href="#bmatrix_definition:174">matrix definition</a></em></strong></span>
+<strong class="block-title"><em><a id="bmatrix_definition:173" href="#bmatrix_definition:173">matrix definition</a></em></strong></span>
 <pre class="prettyprint"><code class="">function Matrix() {
     this.m = new Float64Array(2 * 2);
 };
@@ -247,16 +246,16 @@ Matrix.prototype.set = function(row, col, x) {
     this.m[this.index(row, col)] = x;
 };
 
-<em class="block-link nocode" title="math.lit:212"><a href="#bmatrix_operations:211">@{matrix operations}</a></em>
+<em class="block-link nocode" title="math.lit:211"><a href="#bmatrix_operations:210">@{matrix operations}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bmatrix_operations:211" href="#bmatrix_operations:211">matrix operations</a></em></strong></span>
+<strong class="block-title"><em><a id="bmatrix_operations:210" href="#bmatrix_operations:210">matrix operations</a></em></strong></span>
 <pre class="prettyprint"><code class="">Matrix.prototype.transform = function(v) {
     return new Vec(
         this.m[0] * v.x + this.m[1] * v.y,
@@ -302,7 +301,7 @@ Matrix.prototype.copy = function() {
     return copy;
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bmatrix_definition:174" title="math.lit:175 matrix definition">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bmatrix_definition:173" title="math.lit:174 matrix definition">1</a> </small></p></div>
 
 
 
@@ -314,7 +313,7 @@ Matrix.prototype.copy = function() {
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="baffine_transform_definition:262" href="#baffine_transform_definition:262">affine transform definition</a></em></strong></span>
+<strong class="block-title"><em><a id="baffine_transform_definition:261" href="#baffine_transform_definition:261">affine transform definition</a></em></strong></span>
 <pre class="prettyprint"><code class="">function AffineTransform() {
     this.m = Matrix.from(1, 0, 0, 1);
     this.t = new Vec(0, 0);
@@ -331,7 +330,7 @@ AffineTransform.inverse = function(a) {
     return b;
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 
@@ -343,7 +342,7 @@ AffineTransform.inverse = function(a) {
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bmultivar_optimizer:284" href="#bmultivar_optimizer:284">multivar optimizer</a></em></strong></span>
+<strong class="block-title"><em><a id="bmultivar_optimizer:283" href="#bmultivar_optimizer:283">multivar optimizer</a></em></strong></span>
 <pre class="prettyprint"><code class="">function multivarOptimize(initial, costFunc, options) {
     var maxIterations = options.maxIterations || 10000;
     var tolerance = options.tolerance || 0.001;
@@ -367,16 +366,16 @@ AffineTransform.inverse = function(a) {
     return simplex.optimize(costFunc, predicate, options);
 };
 
-<em class="block-link nocode" title="math.lit:312"><a href="#bsimplex:311">@{simplex}</a></em>
+<em class="block-link nocode" title="math.lit:311"><a href="#bsimplex:310">@{simplex}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimplex:311" href="#bsimplex:311">simplex</a></em></strong></span>
+<strong class="block-title"><em><a id="bsimplex:310" href="#bsimplex:310">simplex</a></em></strong></span>
 <pre class="prettyprint"><code class="">function Simplex(n) {
     this.dimension = n;
     this.vertices = [];
@@ -449,16 +448,22 @@ Simplex.prototype.shrink = function(sigma) {
     }
 };
 
-<em class="block-link nocode" title="math.lit:388"><a href="#bsimplex_optimizer:387">@{simplex optimizer}</a></em>
+<em class="block-link nocode" title="math.lit:395"><a href="#bsimplex_optimizer:394">@{simplex optimizer}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bmultivar_optimizer:284" title="math.lit:285 multivar optimizer">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bmultivar_optimizer:283" title="math.lit:284 multivar optimizer">1</a> </small></p></div>
 
 
+<p>Nelder-Mead optimization iteratively transforms a simplex, moving it in
+the direction where the cost function decreases and contracting it around
+ a local minimum when it finds one.</p>
 
+<p>At each step, one of four transformations is applied: &ldquo;reflect&rdquo;, &ldquo;expand&rdquo;,
+&ldquo;contract&rdquo;, or &ldquo;shrink&rdquo;.
+The magnitude of each transformation is controlled by a coefficient.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimplex_optimizer:387" href="#bsimplex_optimizer:387">simplex optimizer</a></em></strong></span>
+<strong class="block-title"><em><a id="bsimplex_optimizer:394" href="#bsimplex_optimizer:394">simplex optimizer</a></em></strong></span>
 <pre class="prettyprint"><code class="">Simplex.prototype.computeVertexImages = function(costFunc) {
     for (var i = 0; i &lt; (this.dimension + 1); ++i) {
         this.vertices[i].image = costFunc(this.vertices[i].point);
@@ -467,13 +472,6 @@ Simplex.prototype.shrink = function(sigma) {
 };
 
 Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
-    // Nelder-Mead optimization iteratively transforms a simplex, moving it in
-    // the direction where the cost function decreases and contracting it around
-    // a local minimum when it finds one
-
-    // At each step, one of four transformations is applied: "reflect", "expand",
-    // "contract", or "shrink".
-    // The magnitude of each transformation is controlled by a coefficient:
     var rho = options.rho || 1.0; // coefficient for "reflect"
     var chi = options.chi || 2.0; // coefficient for "expand"
     var gamma = options.gamma || 0.5; // coefficient for "contract"
@@ -561,17 +559,15 @@ Simplex.prototype.optimize = function(costFunc, stopPredicate, options) {
     };
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bsimplex:311" title="math.lit:312 simplex">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bsimplex:310" title="math.lit:311 simplex">1</a> </small></p></div>
 
 
-
+<p>The Ackley function is a commonly used for testing optimization algorithms.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="boptimizer_test:492" href="#boptimizer_test:492">optimizer test</a></em></strong></span>
-<pre class="prettyprint"><code class="">// The Ackley function is a function specifically designed for testing
-// optimization algorithms and commonly used for that purpose
-function makeAckley(a, b, c) {
+<strong class="block-title"><em><a id="boptimizer_test:493" href="#boptimizer_test:493">optimizer test</a></em></strong></span>
+<pre class="prettyprint"><code class="">function makeAckley(a, b, c) {
     return function(vars) {
         var sumSquares = vars.reduce(function(total, x) {
             return total + x * x;
@@ -598,25 +594,25 @@ function testOptimizer() {
     console.log(multivarOptimize([-2.1, -3.04, 4.5], f, options));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/math.js:524" title="math.lit:525 /math.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/math.js:523" title="math.lit:524 /math.js">1</a> </small></p></div>
 
 
 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="b/math.js:524" href="#b/math.js:524">/math.js</a></em></strong></span>
+<strong class="block-title"><em><a id="b/math.js:523" href="#b/math.js:523">/math.js</a></em></strong></span>
 <pre class="prettyprint"><code class="">// Created by Justin Meiners (2022)
 // License: MIT
 "use strict";
 
-<em class="block-link nocode" title="math.lit:14"><a href="#bmath_utilities:13">@{math utilities}</a></em>
-<em class="block-link nocode" title="math.lit:36"><a href="#bvec_definition:35">@{vec definition}</a></em>
-<em class="block-link nocode" title="math.lit:175"><a href="#bmatrix_definition:174">@{matrix definition}</a></em>
-<em class="block-link nocode" title="math.lit:263"><a href="#baffine_transform_definition:262">@{affine transform definition}</a></em>
+<em class="block-link nocode" title="math.lit:13"><a href="#bmath_utilities:12">@{math utilities}</a></em>
+<em class="block-link nocode" title="math.lit:35"><a href="#bvec_definition:34">@{vec definition}</a></em>
+<em class="block-link nocode" title="math.lit:174"><a href="#bmatrix_definition:173">@{matrix definition}</a></em>
+<em class="block-link nocode" title="math.lit:262"><a href="#baffine_transform_definition:261">@{affine transform definition}</a></em>
 
-<em class="block-link nocode" title="math.lit:493"><a href="#boptimizer_test:492">@{optimizer test}</a></em>
-<em class="block-link nocode" title="math.lit:285"><a href="#bmultivar_optimizer:284">@{multivar optimizer}</a></em>
+<em class="block-link nocode" title="math.lit:494"><a href="#boptimizer_test:493">@{optimizer test}</a></em>
+<em class="block-link nocode" title="math.lit:284"><a href="#bmultivar_optimizer:283">@{multivar optimizer}</a></em>
 </code></pre>
 </div>
 
