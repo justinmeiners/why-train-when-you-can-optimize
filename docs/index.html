@@ -41,7 +41,7 @@
 <h1>Why Train When You Can Optimize?<a id="c0"></a></h1>
 
 
-<p><strong>By:</strong> <a href="https://justinmeiners.github.io">Justin Meiners</a></p>
+<p><strong>By:</strong> <a href="https://www.jmeiners.com">Justin Meiners</a></p>
 
 <p>View the final code at the <a href="https://github.com/justinmeiners/why-train-when-you-can-optimize">GitHub repo</a></p>
 
@@ -280,7 +280,7 @@ function tryLineFit(points) {
 
 <em class="block-link nocode" title="index.lit:232"><a href="#bline_to_drawing:231">@{line to drawing}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:644" title="index.lit:645 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
 
 
 <p>We need one more function to help turn our final answer into an actual drawing to display.
@@ -314,7 +314,7 @@ in the <code>draw.js</code> file):</p>
     return tryLineFit(path);
 }
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/assist.js:677" title="index.lit:678 /assist.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#b/assist.js:679" title="index.lit:680 /assist.js">1</a> </small></p></div>
 
 
 <p><img src="img/line-drawing.gif" alt="line drawing" /></p>
@@ -360,12 +360,14 @@ Given a totally random function, the optimizer can&rsquo;t do anything but test 
 
 <h3>Which optimizer is used here?</h3>
 
-<p>In this article, I use the <a href="https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method">Nelder-Mead</a> algorithm.
-It&rsquo;s convenient because it doesn&rsquo;t require much extra information besides the function itself (many algorithms require providing an explicit derivative).
-The tradeoff is it doesn&rsquo;t have a great <a href="http://www.scholarpedia.org/article/Nelder-Mead_algorithm">theoretical reputation</a> and can be slower.
+<p>In this project, I use the <a href="https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method">Nelder-Mead</a> algorithm.
+We won&rsquo;t dig into it how it works here. Alex Dowad has provided a <a href="https://alexdowad.github.io/visualizing-nelder-mead/">brilliant article and visualization</a> for those curious.</p>
+
+<p>Nelder-Mead is convenient because it doesn&rsquo;t require much extra information besides the function itself (many algorithms require providing an explicit derivative).
+The tradeoff is it doesn&rsquo;t have a strong <a href="http://www.scholarpedia.org/article/Nelder-Mead_algorithm">theoretical background</a> and can be slower.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
-I reach for it first for experimentation and then upgrade if it is no longer adequate.</p>
+I reach for it first to experiment and then upgrade if it is no longer adequate.</p>
 
 <h2>6. When do optimizers fail?<a id="s0:5"></a></h2>
 
@@ -414,7 +416,7 @@ The cost function is constructed using the sum of squares.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_cost_function:342" href="#bcircle_cost_function:342">circle cost function</a></em></strong></span>
+<strong class="block-title"><em><a id="bcircle_cost_function:344" href="#bcircle_cost_function:344">circle cost function</a></em></strong></span>
 <pre class="prettyprint"><code class="">function circleDistance(point, circle) {
     var v = Vec.sub(point, circle.origin);
     return Math.abs(v.len() - circle.radius);
@@ -435,7 +437,7 @@ function makeCircleCost(points) {
     return vars =&gt; circleDistance2(points, varsToCircle(vars));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bcircle_optimization:369" title="index.lit:370 circle optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bcircle_optimization:371" title="index.lit:372 circle optimization">1</a> </small></p></div>
 
 
 <p>For the optimization, we can once again use the centroid of the drawing
@@ -445,8 +447,8 @@ rectangle around the drawing.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_optimization:369" href="#bcircle_optimization:369">circle optimization</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:343"><a href="#bcircle_cost_function:342">@{circle cost function}</a></em>
+<strong class="block-title"><em><a id="bcircle_optimization:371" href="#bcircle_optimization:371">circle optimization</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:345"><a href="#bcircle_cost_function:344">@{circle cost function}</a></em>
 
 function tryCircleFit(points) {
     const centroid = Vec.centroid(points);
@@ -469,9 +471,9 @@ function tryCircleFit(points) {
     };
 };
 
-<em class="block-link nocode" title="index.lit:409"><a href="#bcircle_matches:408">@{circle matches}</a></em>
+<em class="block-link nocode" title="index.lit:411"><a href="#bcircle_matches:410">@{circle matches}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:644" title="index.lit:645 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
 
 
 <p>With the circle, we have a new problem to solve.
@@ -488,7 +490,7 @@ We do this by measuring their relative path lengths and verifying they are simil
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_matches:408" href="#bcircle_matches:408">circle matches</a></em></strong></span>
+<strong class="block-title"><em><a id="bcircle_matches:410" href="#bcircle_matches:410">circle matches</a></em></strong></span>
 <pre class="prettyprint"><code class="">function circleMatches(path, circle) {
     const circumference = 2.0 * Math.PI * circle.radius;
     if (circumference &lt; 10) return false;
@@ -497,7 +499,7 @@ We do this by measuring their relative path lengths and verifying they are simil
     return Math.abs(ratio - 1.0) &lt; 0.15;
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bcircle_optimization:369" title="index.lit:370 circle optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bcircle_optimization:371" title="index.lit:372 circle optimization">1</a> </small></p></div>
 
 
 <p><img src="img/circle-drawing.gif" alt="circle drawing" /></p>
@@ -534,7 +536,7 @@ the point could be in.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_side_classification:446" href="#brect_side_classification:446">rect side classification</a></em></strong></span>
+<strong class="block-title"><em><a id="brect_side_classification:448" href="#brect_side_classification:448">rect side classification</a></em></strong></span>
 <pre class="prettyprint"><code class="">function classify(x, min, max) {
     if (x &lt; min) {
         return -1;
@@ -547,7 +549,7 @@ the point could be in.</p>
 const sideX = classify(point.x, 0, size.x);
 const sideY = classify(point.y, 0, size.y);
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bsimple_rect_distance:464" title="index.lit:465 simple rect distance">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bsimple_rect_distance:466" title="index.lit:467 simple rect distance">1</a> </small></p></div>
 
 
 <p>When the point lies within a corner section,
@@ -556,9 +558,9 @@ Otherwise, the distance is one of its coordinate components.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimple_rect_distance:464" href="#bsimple_rect_distance:464">simple rect distance</a></em></strong></span>
+<strong class="block-title"><em><a id="bsimple_rect_distance:466" href="#bsimple_rect_distance:466">simple rect distance</a></em></strong></span>
 <pre class="prettyprint"><code class="">function simpleRectDistance(point, size) {
-    <em class="block-link nocode" title="index.lit:447"><a href="#brect_side_classification:446">@{rect side classification}</a></em>
+    <em class="block-link nocode" title="index.lit:449"><a href="#brect_side_classification:448">@{rect side classification}</a></em>
     switch (sideX) {
     case -1:
         switch (sideY) {
@@ -581,7 +583,7 @@ Otherwise, the distance is one of its coordinate components.</p>
     }
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#brect_cost_function:533" title="index.lit:534 rect cost function">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#brect_cost_function:535" title="index.lit:536 rect cost function">1</a> </small></p></div>
 
 
 <p><strong>Exercise:</strong> Describe what a &ldquo;heat map&rdquo; style visualization of this distance function would look like.</p>
@@ -599,7 +601,7 @@ using the sum of squares.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimple_rect_distance:503" href="#bsimple_rect_distance:503">simple rect distance</a></em></strong> <a href="#bsimple_rect_distance:464">+=</a></span>
+<strong class="block-title"><em><a id="bsimple_rect_distance:505" href="#bsimple_rect_distance:505">simple rect distance</a></em></strong> <a href="#bsimple_rect_distance:466">+=</a></span>
 <pre class="prettyprint"><code class="">function simpleRectDistances2(points, size) {
     return sumOfSquares(points.map(p =&gt; simpleRectDistance(p, size)));
 };
@@ -639,8 +641,8 @@ Then we can use the simple cost functions we just defined.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_cost_function:533" href="#brect_cost_function:533">rect cost function</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:465"><a href="#bsimple_rect_distance:464">@{simple rect distance}</a></em>
+<strong class="block-title"><em><a id="brect_cost_function:535" href="#brect_cost_function:535">rect cost function</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:467"><a href="#bsimple_rect_distance:466">@{simple rect distance}</a></em>
 
 function buildTransform(translate, angle) {
     const A = new AffineTransform();
@@ -669,7 +671,7 @@ function makeRectCost(points) {
     return vars =&gt; orientedRectDistances2(points, varsToRect(vars));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#brect_optimization:570" title="index.lit:571 rect optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#brect_optimization:572" title="index.lit:573 rect optimization">1</a> </small></p></div>
 
 
 <p>This rectangle has taken more work to build the cost function,
@@ -679,8 +681,8 @@ for the box size and translation.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:570" href="#brect_optimization:570">rect optimization</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:534"><a href="#brect_cost_function:533">@{rect cost function}</a></em>
+<strong class="block-title"><em><a id="brect_optimization:572" href="#brect_optimization:572">rect optimization</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:536"><a href="#brect_cost_function:535">@{rect cost function}</a></em>
 
 function tryRectFit(points) {
     const [ minPoint, maxPoint ] = Vec.bounds(points);
@@ -704,7 +706,7 @@ function tryRectFit(points) {
     };
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:644" title="index.lit:645 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
 
 
 <p>Like the circle, we also need to reject boxes
@@ -712,7 +714,7 @@ which do not plausibly match the drawing.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:599" href="#brect_optimization:599">rect optimization</a></em></strong> <a href="#brect_optimization:570">+=</a></span>
+<strong class="block-title"><em><a id="brect_optimization:601" href="#brect_optimization:601">rect optimization</a></em></strong> <a href="#brect_optimization:572">+=</a></span>
 <pre class="prettyprint"><code class="">function rectMatches(path, rect) {
     if (rect.size.x &lt; 6 || rect.size.y &lt; 6) {
         return false;
@@ -732,7 +734,7 @@ we can represent the rect as a path.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:616" href="#brect_optimization:616">rect optimization</a></em></strong> <a href="#brect_optimization:570">+=</a></span>
+<strong class="block-title"><em><a id="brect_optimization:618" href="#brect_optimization:618">rect optimization</a></em></strong> <a href="#brect_optimization:572">+=</a></span>
 <pre class="prettyprint"><code class="">function rectToDrawing(rect) {
     const points = [
         new Vec(0, 0),
@@ -762,10 +764,10 @@ we will redefine the <code>tryShapeFit</code> function to pick the best one.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bshape_fit:644" href="#bshape_fit:644">shape fit</a></em></strong> <a href="#bshape_fit:247">:=</a></span>
+<strong class="block-title"><em><a id="bshape_fit:646" href="#bshape_fit:646">shape fit</a></em></strong> <a href="#bshape_fit:247">:=</a></span>
 <pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:208"><a href="#bline_optimization:207">@{line optimization}</a></em>
-<em class="block-link nocode" title="index.lit:370"><a href="#bcircle_optimization:369">@{circle optimization}</a></em>
-<em class="block-link nocode" title="index.lit:571"><a href="#brect_optimization:570">@{rect optimization}</a></em>
+<em class="block-link nocode" title="index.lit:372"><a href="#bcircle_optimization:371">@{circle optimization}</a></em>
+<em class="block-link nocode" title="index.lit:573"><a href="#brect_optimization:572">@{rect optimization}</a></em>
 
 var fitFunctions = [
     tryLineFit,
@@ -777,7 +779,7 @@ function tryShapeFit(path) {
     const results = fitFunctions.map(f =&gt; f(path)).filter(x =&gt; x);
     const best = results.reduce((a, b) =&gt; b.cost &lt; a.cost ? b : a);
 
-    <em class="block-link nocode" title="index.lit:671"><a href="#btolerance_function:670">@{tolerance function}</a></em>
+    <em class="block-link nocode" title="index.lit:673"><a href="#btolerance_function:672">@{tolerance function}</a></em>
 
     if (best.cost &lt; acceptableTolerance(path)) {
         return best;
@@ -792,20 +794,20 @@ This permits the drawing of other shapes besides the correctable ones.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="btolerance_function:670" href="#btolerance_function:670">tolerance function</a></em></strong></span>
+<strong class="block-title"><em><a id="btolerance_function:672" href="#btolerance_function:672">tolerance function</a></em></strong></span>
 <pre class="prettyprint"><code class="">function acceptableTolerance(path) {
     const perPointTolerance = 6.0;
     return path.length * perPointTolerance * perPointTolerance;
 }
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:644" title="index.lit:645 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
 
 
 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="b/assist.js:677" href="#b/assist.js:677">/assist.js</a></em></strong></span>
+<strong class="block-title"><em><a id="b/assist.js:679" href="#b/assist.js:679">/assist.js</a></em></strong></span>
 <pre class="prettyprint"><code class="">// Created by: Justin Meiners (2022)
 <em class="block-link nocode" title="index.lit:248"><a href="#bshape_fit:247">@{shape fit}</a></em>
 </code></pre>
@@ -910,7 +912,7 @@ We have some good reasons to hope multi-layer neural networks should be able to 
 <ol>
 <li>They are proven to be <a href="http://neuralnetworksanddeeplearning.com/chap4.html">universal function approximators</a>.</li>
 <li>They can be implemented efficiently on modern parallel compute hardware.</li>
-<li>There is an <a href="https://justinmeiners.github.io/neural-nets-sim/">analogy</a> between organic neurons and computer neurons, so there is
+<li>There is an <a href="https://www.jmeiners.com/neural-nets-sim/">analogy</a> between organic neurons and computer neurons, so there is
  a hope that advantages will come from mimicking brains.</li>
 <li>Optimization algorithms like gradient descent work well on them (back propagation).</li>
 </ol>

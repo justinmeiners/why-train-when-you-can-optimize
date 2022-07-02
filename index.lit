@@ -1,6 +1,6 @@
 # Why Train When You Can Optimize?
 
-**By:** [Justin Meiners](https://justinmeiners.github.io)
+**By:** [Justin Meiners](https://www.jmeiners.com)
 
 View the final code at the [GitHub repo](https://github.com/justinmeiners/why-train-when-you-can-optimize)
 
@@ -292,12 +292,14 @@ Given a totally random function, the optimizer can't do anything but test values
 
 ### Which optimizer is used here?
 
-In this article, I use the [Nelder-Mead](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method) algorithm.
-It's convenient because it doesn't require much extra information besides the function itself (many algorithms require providing an explicit derivative).
-The tradeoff is it doesn't have a great [theoretical reputation](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and can be slower.
+In this project, I use the [Nelder-Mead](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method) algorithm.
+We won't dig into it how it works here. Alex Dowad has provided a [brilliant article and visualization](https://alexdowad.github.io/visualizing-nelder-mead/) for those curious.
+
+Nelder-Mead is convenient because it doesn't require much extra information besides the function itself (many algorithms require providing an explicit derivative).
+The tradeoff is it doesn't have a strong [theoretical background](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and can be slower.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
-I reach for it first for experimentation and then upgrade if it is no longer adequate.
+I reach for it first to experiment and then upgrade if it is no longer adequate.
 
 ## When do optimizers fail?
 
@@ -786,7 +788,7 @@ We have some good reasons to hope multi-layer neural networks should be able to 
 4. Optimization algorithms like gradient descent work well on them (back propagation).
 
 
-[neural-nets-sim]: https://justinmeiners.github.io/neural-nets-sim/
+[neural-nets-sim]: https://www.jmeiners.com/neural-nets-sim/
 
 ### Tradeoffs of neural networks
 
