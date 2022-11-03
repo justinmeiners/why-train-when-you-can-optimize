@@ -122,9 +122,7 @@ If you want to follow along by writing your own code, here are the files you wil
 - [math.js](src/math.js): A vector math library that also includes an optimization algorithm. ([docs](math.html))
 - [draw.js](src/draw.js): Simple canvas code for mouse input and drawing. ([docs](template.html))
 
-These can be loaded in a trivial HTML template, with `<canvas id="main-canvas">`
-somewhere in the body.
-
+These can be loaded in a trivial HTML template, with `<canvas id="main-canvas">` somewhere in the body.
 
 ## Lines
 
@@ -263,7 +261,7 @@ nor does it demonstrate the general problem-solving approach.
 Now that you have seen an optimizer solve a problem, let's review how they work.
 If you look at a graph of a function, you'll notice the maxima and minima points always occur at peaks and valleys.
 A little thought reveals this to be obvious.
-If a point is on a slope, it can always get smaller by walking downhill.
+If a point is resting on a slope, it can get lower just by sliding further downhill.
 You may recall from calculus that these points can be found by finding where the slope (derivative) is 0.
 
 ![function extrema](img/function-extrema.png)
@@ -280,11 +278,14 @@ so finding minima is more difficult and time-consuming, but the idea is the same
 
 **Note:** For those interested, this collection of [test functions](https://en.wikipedia.org/wiki/Test_functions_for_optimization) illustrate some difficult situations.
 
-The important thing to remember is that all optimizers make assumptions about the structure of the cost function.
-For general optimizers, that usually means the function is **continuous** (it doesn't have breaks and hopefully has some hills), and some number of **derivatives** exist (we can compute downhill directions).
-In practice, small discontinuities and other minor imperfections tend not to matter,
+The important thing to remember is that all optimizers rely on the cost function behaving in a predictable manner.
+Each algorithm will require a specific set of mathematical properties,
+but typically the function must be **continuous** (it doesn't have breaks or jumps) and **differentiable** (the downhill direction can be computed).
+In practice, small discontinuities and other minor imperfections are not catastrophic,
 but broadly, there must be peaks and valleys that the optimizer can actually follow.
-Given a totally random function, the optimizer can't do anything but test values in a brute force manner.
+
+If a function has no structure at all, such as a set of random pairs of real numbers, then the only
+thing an optimization algorithm can hope to do is test values in brute force manner!
 
 ![function not continuous](img/function-not-continuous.png)
 
@@ -293,13 +294,15 @@ Given a totally random function, the optimizer can't do anything but test values
 ### Which optimizer is used here?
 
 In this project, I use the [Nelder-Mead](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method) algorithm.
-We won't dig into it how it works here. Alex Dowad has written a [brilliant article and visualization](https://alexdowad.github.io/visualizing-nelder-mead/) for those curious.
-
 Nelder-Mead is convenient because it doesn't require much extra information besides the function itself (many algorithms require providing an explicit derivative).
-The tradeoff is it doesn't have a strong [theoretical background](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and can be slower.
-A good heuristic is that it should give similar results to gradient descent,
+The tradeoff is it doesn't have a strong [formal foundation](http://www.scholarpedia.org/article/Nelder-Mead_algorithm) and often converges more slowly than other techniques.
+A good heuristic is that it should give similar results to gradient descent, 
 but will be much slower (especially with many variables).
-I reach for it first to experiment and then upgrade if it is no longer adequate.
+I reach for it first to experiment and then upgrade if it starts to underperform. 
+
+We won't dig into it how it works here.
+If you are curious Alex Dowad has written a [brilliant article](https://alexdowad.github.io/visualizing-nelder-mead/) with a visualizer.
+You may also be interested in a [single header C implementation](https://github.com/justinmeiners/nelder-mead).
 
 ## When do optimizers fail?
 
@@ -787,7 +790,6 @@ We have some good reasons to hope multi-layer neural networks should be able to 
     a hope that advantages will come from mimicking brains.
 4. Optimization algorithms like gradient descent work well on them (back propagation).
 
-
 [neural-nets-sim]: https://www.jmeiners.com/neural-nets-sim/
 
 ### Tradeoffs of neural networks
@@ -840,28 +842,36 @@ Here are several free resources, each offering a very different path to explore:
 
 - [**Structure and Interpretation of Classical Mechanics**](https://mitpress.mit.edu/sites/default/files/titles/content/sicm_edition_2/book.html)
 
-    This book is about physics, but explains it using code.
-    Unfortunately, it is still quite challenging and requires a solid math background.
+    This book teaches physics through programming.
+    But despite having a lot of code, it still requires a solid math background and can be quite challenging.
 
-    As it turns out, optimization algorithms are important for finding motion paths.
-    This is actually where I learned about optimization for the first time,
-    and it happens to also use the Nelder-Mead algorithm.
+    Optimization is used to find the trajectories of physical systems in the following manner.
+
+    - Using physical laws, "action" functions (a kind of cost function) are derived to describe the kinds of energy in a system.
+
+    - A class of curves is chosen (such as interpolating polynomials) to approximate how the system evolves over time.
+
+    - The optimizer then manipulates the curve parameters to find the path that minimizes the action.
+
+    This is actually where I learned about optimization and the Nelder-Mead algorithm.
 
 - [**Linear Programming**](https://en.wikipedia.org/wiki/Linear_programming)
 
-    Linear programming is a special class of optimization problems that are generally
-    simpler, but have algorithms guaranteed to give answers in reasonable amounts of time.
-
-    This is a great way to learn about other optimization approaches.
+    Linear programming is a special class of optimization problem where the constraints and cost function are linear.
+    This is a much stricter requirement than "continuous" or "differentiable", but when it can be satisfied
+    it makes optimization a whole lot easier. 
+    In fact there are reliable algorithms that are guaranteed to find optimal soltuions.
+    
+    Learning a bit about linear programming is a great way to learn about other optimization approaches and
+    how to frame optimization problems
 
 - [**Differentiable Programming Manifesto**](https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md)
 
-    As you get into more complex problems, getting an optimizer to work efficiently
-    and reliably is harder.
-    Providing explicit and accurate gradients is one way to help the optimizer out a lot.
+    As you get into more complex problems with more variables,
+    getting an optimizer to work efficiently and reliably is harder.
+    Providing explicit and accurate gradient functions is one way to help the optimizer find a solution.
 
-    Automatic differentiation is a language feature that computes derivatives of the code you write at compile time.
-    It makes optimization very easy and accessible.
+    Automatic differentiation is a programming language feature that computes derivatives of the code you write at compile time. When it's available, efficient gradient descent approaches become just as easy as "function only" optimizers like Nelder-Mead. Automatic differentation techniques have been around for a long time, but has been reinvigorated by machine learning.
 
 - [**Neural Networks and Deep Learning**](http://neuralnetworksanddeeplearning.com/)
 

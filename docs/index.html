@@ -166,8 +166,7 @@ If you want to follow along by writing your own code, here are the files you wil
 </ul>
 
 
-<p>These can be loaded in a trivial HTML template, with <code>&lt;canvas id="main-canvas"&gt;</code>
-somewhere in the body.</p>
+<p>These can be loaded in a trivial HTML template, with <code>&lt;canvas id="main-canvas"&gt;</code> somewhere in the body.</p>
 
 <h2>4. Lines<a id="s0:3"></a></h2>
 
@@ -201,7 +200,7 @@ Here is this formula written in code:</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bline_cost_function:156" href="#bline_cost_function:156">line cost function</a></em></strong></span>
+<strong class="block-title"><em><a id="line-cost-function-block-1" href="#line-cost-function-block-1">line cost function</a></em></strong></span>
 <pre class="prettyprint"><code class="">function sumOfSquares(distances) {
     return distances.reduce((total, term) =&gt; total + term * term, 0);
 };
@@ -212,7 +211,7 @@ function lineDistance2(points, line) {
     return sumOfSquares(distances);
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bline_optimization:207" title="index.lit:208 line optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#line-optimization-block-5" title="line optimization">1</a> </small></p></div>
 
 
 <p>The code uses a direction vector instead of the angle,
@@ -228,7 +227,7 @@ We then need to pull it apart to get all the variables to pass to the function a
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bline_cost_function:179" href="#bline_cost_function:179">line cost function</a></em></strong> <a href="#bline_cost_function:156">+=</a></span>
+<strong class="block-title"><em><a id="line-cost-function-block-3" href="#line-cost-function-block-3">line cost function</a></em></strong> <a href="#line-cost-function-block-1">+=</a></span>
 <pre class="prettyprint"><code class="">function varsToLine(vars) {
     return {
         origin: new Vec(vars[0], vars[1]),
@@ -261,8 +260,8 @@ Efficient cost functions are important to good performance.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bline_optimization:207" href="#bline_optimization:207">line optimization</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:157"><a href="#bline_cost_function:156">@{line cost function}</a></em>
+<strong class="block-title"><em><a id="line-optimization-block-5" href="#line-optimization-block-5">line optimization</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode"><a href="#line-cost-function-block-1">@{line cost function}</a></em>
 
 function tryLineFit(points) {
     const centroid = Vec.centroid(points);
@@ -278,9 +277,9 @@ function tryLineFit(points) {
     };
 };
 
-<em class="block-link nocode" title="index.lit:232"><a href="#bline_to_drawing:231">@{line to drawing}</a></em>
+<em class="block-link nocode"><a href="#line-to-drawing-block-7">@{line to drawing}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#shape-fit-block-31" title="shape fit">1</a> </small></p></div>
 
 
 <p>We need one more function to help turn our final answer into an actual drawing to display.
@@ -289,7 +288,7 @@ After the optimizer finds the best one, we need to trim it to the proper length 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bline_to_drawing:231" href="#bline_to_drawing:231">line to drawing</a></em></strong></span>
+<strong class="block-title"><em><a id="line-to-drawing-block-7" href="#line-to-drawing-block-7">line to drawing</a></em></strong></span>
 <pre class="prettyprint"><code class="">function lineToDrawing(points, line) {
     const distances = points.map(p =&gt; Vec.sub(p, line.origin).dot(line.direction));
     const start = Math.min.apply(Math, distances);
@@ -301,7 +300,7 @@ After the optimizer finds the best one, we need to trim it to the proper length 
     ];
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bline_optimization:207" title="index.lit:208 line optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#line-optimization-block-5" title="line optimization">1</a> </small></p></div>
 
 
 <p>To see this code work in the template, define the following function (which will be called
@@ -309,12 +308,12 @@ in the <code>draw.js</code> file):</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bshape_fit:247" href="#bshape_fit:247">shape fit</a></em></strong></span>
+<strong class="block-title"><em><a id="shape-fit-block-9" href="#shape-fit-block-9">shape fit</a></em></strong></span>
 <pre class="prettyprint"><code class="">function tryShapeFit(path) {
     return tryLineFit(path);
 }
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#b/assist.js:679" title="index.lit:680 /assist.js">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#-assist.js-block-35" title="/assist.js">1</a> </small></p></div>
 
 
 <p><img src="img/line-drawing.gif" alt="line drawing" /></p>
@@ -331,7 +330,7 @@ nor does it demonstrate the general problem-solving approach.</p>
 <p>Now that you have seen an optimizer solve a problem, let&rsquo;s review how they work.
 If you look at a graph of a function, you&rsquo;ll notice the maxima and minima points always occur at peaks and valleys.
 A little thought reveals this to be obvious.
-If a point is on a slope, it can always get smaller by walking downhill.
+If a point is resting on a slope, it can get lower just by sliding further downhill.
 You may recall from calculus that these points can be found by finding where the slope (derivative) is 0.</p>
 
 <p><img src="img/function-extrema.png" alt="function extrema" /></p>
@@ -348,11 +347,14 @@ so finding minima is more difficult and time-consuming, but the idea is the same
 
 <p><strong>Note:</strong> For those interested, this collection of <a href="https://en.wikipedia.org/wiki/Test_functions_for_optimization">test functions</a> illustrate some difficult situations.</p>
 
-<p>The important thing to remember is that all optimizers make assumptions about the structure of the cost function.
-For general optimizers, that usually means the function is <strong>continuous</strong> (it doesn&rsquo;t have breaks and hopefully has some hills), and some number of <strong>derivatives</strong> exist (we can compute downhill directions).
-In practice, small discontinuities and other minor imperfections tend not to matter,
-but broadly, there must be peaks and valleys that the optimizer can actually follow.
-Given a totally random function, the optimizer can&rsquo;t do anything but test values in a brute force manner.</p>
+<p>The important thing to remember is that all optimizers rely on the cost function behaving in a predictable manner.
+Each algorithm will require a specific set of mathematical properties,
+but typically the function must be <strong>continuous</strong> (it doesn&rsquo;t have breaks or jumps) and <strong>differentiable</strong> (the downhill direction can be computed).
+In practice, small discontinuities and other minor imperfections are not catastrophic,
+but broadly, there must be peaks and valleys that the optimizer can actually follow.</p>
+
+<p>If a function has no structure at all, such as a set of random pairs of real numbers, then the only
+thing an optimization algorithm can hope to do is test values in brute force manner!</p>
 
 <p><img src="img/function-not-continuous.png" alt="function not continuous" /></p>
 
@@ -361,13 +363,15 @@ Given a totally random function, the optimizer can&rsquo;t do anything but test 
 <h3>Which optimizer is used here?</h3>
 
 <p>In this project, I use the <a href="https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method">Nelder-Mead</a> algorithm.
-We won&rsquo;t dig into it how it works here. Alex Dowad has written a <a href="https://alexdowad.github.io/visualizing-nelder-mead/">brilliant article and visualization</a> for those curious.</p>
-
-<p>Nelder-Mead is convenient because it doesn&rsquo;t require much extra information besides the function itself (many algorithms require providing an explicit derivative).
-The tradeoff is it doesn&rsquo;t have a strong <a href="http://www.scholarpedia.org/article/Nelder-Mead_algorithm">theoretical background</a> and can be slower.
+Nelder-Mead is convenient because it doesn&rsquo;t require much extra information besides the function itself (many algorithms require providing an explicit derivative).
+The tradeoff is it doesn&rsquo;t have a strong <a href="http://www.scholarpedia.org/article/Nelder-Mead_algorithm">formal foundation</a> and often converges more slowly than other techniques.
 A good heuristic is that it should give similar results to gradient descent,
 but will be much slower (especially with many variables).
-I reach for it first to experiment and then upgrade if it is no longer adequate.</p>
+I reach for it first to experiment and then upgrade if it starts to underperform.</p>
+
+<p>We won&rsquo;t dig into it how it works here.
+If you are curious Alex Dowad has written a <a href="https://alexdowad.github.io/visualizing-nelder-mead/">brilliant article</a> with a visualizer.
+You may also be interested in a <a href="https://github.com/justinmeiners/nelder-mead">single header C implementation</a>.</p>
 
 <h2>6. When do optimizers fail?<a id="s0:5"></a></h2>
 
@@ -416,7 +420,7 @@ The cost function is constructed using the sum of squares.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_cost_function:344" href="#bcircle_cost_function:344">circle cost function</a></em></strong></span>
+<strong class="block-title"><em><a id="circle-cost-function-block-11" href="#circle-cost-function-block-11">circle cost function</a></em></strong></span>
 <pre class="prettyprint"><code class="">function circleDistance(point, circle) {
     var v = Vec.sub(point, circle.origin);
     return Math.abs(v.len() - circle.radius);
@@ -437,7 +441,7 @@ function makeCircleCost(points) {
     return vars =&gt; circleDistance2(points, varsToCircle(vars));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bcircle_optimization:371" title="index.lit:372 circle optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#circle-optimization-block-13" title="circle optimization">1</a> </small></p></div>
 
 
 <p>For the optimization, we can once again use the centroid of the drawing
@@ -447,8 +451,8 @@ rectangle around the drawing.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_optimization:371" href="#bcircle_optimization:371">circle optimization</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:345"><a href="#bcircle_cost_function:344">@{circle cost function}</a></em>
+<strong class="block-title"><em><a id="circle-optimization-block-13" href="#circle-optimization-block-13">circle optimization</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode"><a href="#circle-cost-function-block-11">@{circle cost function}</a></em>
 
 function tryCircleFit(points) {
     const centroid = Vec.centroid(points);
@@ -471,9 +475,9 @@ function tryCircleFit(points) {
     };
 };
 
-<em class="block-link nocode" title="index.lit:411"><a href="#bcircle_matches:410">@{circle matches}</a></em>
+<em class="block-link nocode"><a href="#circle-matches-block-15">@{circle matches}</a></em>
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#shape-fit-block-31" title="shape fit">1</a> </small></p></div>
 
 
 <p>With the circle, we have a new problem to solve.
@@ -490,7 +494,7 @@ We do this by measuring their relative path lengths and verifying they are simil
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bcircle_matches:410" href="#bcircle_matches:410">circle matches</a></em></strong></span>
+<strong class="block-title"><em><a id="circle-matches-block-15" href="#circle-matches-block-15">circle matches</a></em></strong></span>
 <pre class="prettyprint"><code class="">function circleMatches(path, circle) {
     const circumference = 2.0 * Math.PI * circle.radius;
     if (circumference &lt; 10) return false;
@@ -499,7 +503,7 @@ We do this by measuring their relative path lengths and verifying they are simil
     return Math.abs(ratio - 1.0) &lt; 0.15;
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bcircle_optimization:371" title="index.lit:372 circle optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#circle-optimization-block-13" title="circle optimization">1</a> </small></p></div>
 
 
 <p><img src="img/circle-drawing.gif" alt="circle drawing" /></p>
@@ -536,7 +540,7 @@ the point could be in.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_side_classification:448" href="#brect_side_classification:448">rect side classification</a></em></strong></span>
+<strong class="block-title"><em><a id="rect-side-classification-block-17" href="#rect-side-classification-block-17">rect side classification</a></em></strong></span>
 <pre class="prettyprint"><code class="">function classify(x, min, max) {
     if (x &lt; min) {
         return -1;
@@ -549,7 +553,7 @@ the point could be in.</p>
 const sideX = classify(point.x, 0, size.x);
 const sideY = classify(point.y, 0, size.y);
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bsimple_rect_distance:466" title="index.lit:467 simple rect distance">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#simple-rect-distance-block-19" title="simple rect distance">1</a> </small></p></div>
 
 
 <p>When the point lies within a corner section,
@@ -558,9 +562,9 @@ Otherwise, the distance is one of its coordinate components.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimple_rect_distance:466" href="#bsimple_rect_distance:466">simple rect distance</a></em></strong></span>
+<strong class="block-title"><em><a id="simple-rect-distance-block-19" href="#simple-rect-distance-block-19">simple rect distance</a></em></strong></span>
 <pre class="prettyprint"><code class="">function simpleRectDistance(point, size) {
-    <em class="block-link nocode" title="index.lit:449"><a href="#brect_side_classification:448">@{rect side classification}</a></em>
+    <em class="block-link nocode"><a href="#rect-side-classification-block-17">@{rect side classification}</a></em>
     switch (sideX) {
     case -1:
         switch (sideY) {
@@ -583,7 +587,7 @@ Otherwise, the distance is one of its coordinate components.</p>
     }
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#brect_cost_function:535" title="index.lit:536 rect cost function">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#rect-cost-function-block-23" title="rect cost function">1</a> </small></p></div>
 
 
 <p><strong>Exercise:</strong> Describe what a &ldquo;heat map&rdquo; style visualization of this distance function would look like.</p>
@@ -601,7 +605,7 @@ using the sum of squares.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bsimple_rect_distance:505" href="#bsimple_rect_distance:505">simple rect distance</a></em></strong> <a href="#bsimple_rect_distance:466">+=</a></span>
+<strong class="block-title"><em><a id="simple-rect-distance-block-21" href="#simple-rect-distance-block-21">simple rect distance</a></em></strong> <a href="#simple-rect-distance-block-19">+=</a></span>
 <pre class="prettyprint"><code class="">function simpleRectDistances2(points, size) {
     return sumOfSquares(points.map(p =&gt; simpleRectDistance(p, size)));
 };
@@ -641,8 +645,8 @@ Then we can use the simple cost functions we just defined.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_cost_function:535" href="#brect_cost_function:535">rect cost function</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:467"><a href="#bsimple_rect_distance:466">@{simple rect distance}</a></em>
+<strong class="block-title"><em><a id="rect-cost-function-block-23" href="#rect-cost-function-block-23">rect cost function</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode"><a href="#simple-rect-distance-block-19">@{simple rect distance}</a></em>
 
 function buildTransform(translate, angle) {
     const A = new AffineTransform();
@@ -671,7 +675,7 @@ function makeRectCost(points) {
     return vars =&gt; orientedRectDistances2(points, varsToRect(vars));
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#brect_optimization:572" title="index.lit:573 rect optimization">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#rect-optimization-block-25" title="rect optimization">1</a> </small></p></div>
 
 
 <p>This rectangle has taken more work to build the cost function,
@@ -681,8 +685,8 @@ for the box size and translation.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:572" href="#brect_optimization:572">rect optimization</a></em></strong></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:536"><a href="#brect_cost_function:535">@{rect cost function}</a></em>
+<strong class="block-title"><em><a id="rect-optimization-block-25" href="#rect-optimization-block-25">rect optimization</a></em></strong></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode"><a href="#rect-cost-function-block-23">@{rect cost function}</a></em>
 
 function tryRectFit(points) {
     const [ minPoint, maxPoint ] = Vec.bounds(points);
@@ -706,7 +710,7 @@ function tryRectFit(points) {
     };
 };
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#shape-fit-block-31" title="shape fit">1</a> </small></p></div>
 
 
 <p>Like the circle, we also need to reject boxes
@@ -714,7 +718,7 @@ which do not plausibly match the drawing.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:601" href="#brect_optimization:601">rect optimization</a></em></strong> <a href="#brect_optimization:572">+=</a></span>
+<strong class="block-title"><em><a id="rect-optimization-block-27" href="#rect-optimization-block-27">rect optimization</a></em></strong> <a href="#rect-optimization-block-25">+=</a></span>
 <pre class="prettyprint"><code class="">function rectMatches(path, rect) {
     if (rect.size.x &lt; 6 || rect.size.y &lt; 6) {
         return false;
@@ -734,7 +738,7 @@ we can represent the rect as a path.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="brect_optimization:618" href="#brect_optimization:618">rect optimization</a></em></strong> <a href="#brect_optimization:572">+=</a></span>
+<strong class="block-title"><em><a id="rect-optimization-block-29" href="#rect-optimization-block-29">rect optimization</a></em></strong> <a href="#rect-optimization-block-25">+=</a></span>
 <pre class="prettyprint"><code class="">function rectToDrawing(rect) {
     const points = [
         new Vec(0, 0),
@@ -764,10 +768,10 @@ we will redefine the <code>tryShapeFit</code> function to pick the best one.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="bshape_fit:646" href="#bshape_fit:646">shape fit</a></em></strong> <a href="#bshape_fit:247">:=</a></span>
-<pre class="prettyprint"><code class=""><em class="block-link nocode" title="index.lit:208"><a href="#bline_optimization:207">@{line optimization}</a></em>
-<em class="block-link nocode" title="index.lit:372"><a href="#bcircle_optimization:371">@{circle optimization}</a></em>
-<em class="block-link nocode" title="index.lit:573"><a href="#brect_optimization:572">@{rect optimization}</a></em>
+<strong class="block-title"><em><a id="shape-fit-block-31" href="#shape-fit-block-31">shape fit</a></em></strong> <a href="#shape-fit-block-9">:=</a></span>
+<pre class="prettyprint"><code class=""><em class="block-link nocode"><a href="#line-optimization-block-5">@{line optimization}</a></em>
+<em class="block-link nocode"><a href="#circle-optimization-block-13">@{circle optimization}</a></em>
+<em class="block-link nocode"><a href="#rect-optimization-block-25">@{rect optimization}</a></em>
 
 var fitFunctions = [
     tryLineFit,
@@ -779,7 +783,7 @@ function tryShapeFit(path) {
     const results = fitFunctions.map(f =&gt; f(path)).filter(x =&gt; x);
     const best = results.reduce((a, b) =&gt; b.cost &lt; a.cost ? b : a);
 
-    <em class="block-link nocode" title="index.lit:673"><a href="#btolerance_function:672">@{tolerance function}</a></em>
+    <em class="block-link nocode"><a href="#tolerance-function-block-33">@{tolerance function}</a></em>
 
     if (best.cost &lt; acceptableTolerance(path)) {
         return best;
@@ -794,22 +798,22 @@ This permits the drawing of other shapes besides the correctable ones.</p>
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="btolerance_function:672" href="#btolerance_function:672">tolerance function</a></em></strong></span>
+<strong class="block-title"><em><a id="tolerance-function-block-33" href="#tolerance-function-block-33">tolerance function</a></em></strong></span>
 <pre class="prettyprint"><code class="">function acceptableTolerance(path) {
     const perPointTolerance = 6.0;
     return path.length * perPointTolerance * perPointTolerance;
 }
 </code></pre>
-<p class="block-usages"><small>Used by <a href="#bshape_fit:646" title="index.lit:647 shape fit">1</a> </small></p></div>
+<p class="block-usages"><small>Used by <a href="#shape-fit-block-31" title="shape fit">1</a> </small></p></div>
 
 
 
 
 <div class="code-block">
 <span class="block-header">
-<strong class="block-title"><em><a id="b/assist.js:679" href="#b/assist.js:679">/assist.js</a></em></strong></span>
+<strong class="block-title"><em><a id="-assist.js-block-35" href="#-assist.js-block-35">/assist.js</a></em></strong></span>
 <pre class="prettyprint"><code class="">// Created by: Justin Meiners (2022)
-<em class="block-link nocode" title="index.lit:248"><a href="#bshape_fit:247">@{shape fit}</a></em>
+<em class="block-link nocode"><a href="#shape-fit-block-9">@{shape fit}</a></em>
 </code></pre>
 </div>
 
@@ -968,26 +972,35 @@ Here are several free resources, each offering a very different path to explore:
 <ul>
 <li><p><a href="https://mitpress.mit.edu/sites/default/files/titles/content/sicm_edition_2/book.html"><strong>Structure and Interpretation of Classical Mechanics</strong></a></p>
 
-<p>  This book is about physics, but explains it using code.
-  Unfortunately, it is still quite challenging and requires a solid math background.</p>
+<p>  This book teaches physics through programming.
+  But despite having a lot of code, it still requires a solid math background and can be quite challenging.</p>
 
-<p>  As it turns out, optimization algorithms are important for finding motion paths.
-  This is actually where I learned about optimization for the first time,
-  and it happens to also use the Nelder-Mead algorithm.</p></li>
+<p>  Optimization is used to find the trajectories of physical systems in the following manner.</p>
+
+<ul>
+<li><p>Using physical laws, &ldquo;action&rdquo; functions (a kind of cost function) are derived to describe the kinds of energy in a system.</p></li>
+<li><p>A class of curves is chosen (such as interpolating polynomials) to approximate how the system evolves over time.</p></li>
+<li><p>The optimizer then manipulates the curve parameters to find the path that minimizes the action.</p></li>
+</ul>
+
+
+<p>  This is actually where I learned about optimization and the Nelder-Mead algorithm.</p></li>
 <li><p><a href="https://en.wikipedia.org/wiki/Linear_programming"><strong>Linear Programming</strong></a></p>
 
-<p>  Linear programming is a special class of optimization problems that are generally
-  simpler, but have algorithms guaranteed to give answers in reasonable amounts of time.</p>
+<p>  Linear programming is a special class of optimization problem where the constraints and cost function are linear.
+  This is a much stricter requirement than &ldquo;continuous&rdquo; or &ldquo;differentiable&rdquo;, but when it can be satisfied
+  it makes optimization a whole lot easier.
+  In fact there are reliable algorithms that are guaranteed to find optimal soltuions.</p>
 
-<p>  This is a great way to learn about other optimization approaches.</p></li>
+<p>  Learning a bit about linear programming is a great way to learn about other optimization approaches and
+  how to frame optimization problems</p></li>
 <li><p><a href="https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md"><strong>Differentiable Programming Manifesto</strong></a></p>
 
-<p>  As you get into more complex problems, getting an optimizer to work efficiently
-  and reliably is harder.
-  Providing explicit and accurate gradients is one way to help the optimizer out a lot.</p>
+<p>  As you get into more complex problems with more variables,
+  getting an optimizer to work efficiently and reliably is harder.
+  Providing explicit and accurate gradient functions is one way to help the optimizer find a solution.</p>
 
-<p>  Automatic differentiation is a language feature that computes derivatives of the code you write at compile time.
-  It makes optimization very easy and accessible.</p></li>
+<p>  Automatic differentiation is a programming language feature that computes derivatives of the code you write at compile time. When it&rsquo;s available, efficient gradient descent approaches become just as easy as &ldquo;function only&rdquo; optimizers like Nelder-Mead. Automatic differentation techniques have been around for a long time, but has been reinvigorated by machine learning.</p></li>
 <li><p><a href="http://neuralnetworksanddeeplearning.com/"><strong>Neural Networks and Deep Learning</strong></a></p>
 
 <p>  Looking to understand deep learning better? This popular resource is an excellent
